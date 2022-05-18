@@ -16,11 +16,24 @@ export function Home() {
             </Center>
           </Flex>
         </Heading>
-        <Button size="lg" bg="brand.500" color="white" mb="3" _hover={{ bg: 'brand.700' }}>
+        <Button
+          size="lg"
+          bg="brand.500"
+          color="white"
+          mb="3"
+          _hover={{ bg: 'brand.700' }}
+        >
           <Link to="/signup">Criar uma conta</Link>
         </Button>
-        <Button size="lg" bg="transparent" color="brand.500" border="2px" borderColor="brand.500" _hover={{ bg: 'brand.50' }}>
-          Entrar em uma conta
+        <Button
+          size="lg"
+          bg="transparent"
+          color="brand.500"
+          border="2px"
+          borderColor="brand.500"
+          _hover={{ bg: 'brand.50' }}
+        >
+          <Link to="/login">Entrar em uma conta</Link>
         </Button>
       </Flex>
     </Center>
