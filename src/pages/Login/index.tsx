@@ -102,10 +102,10 @@ export function Login() {
               bg="brand.500"
               color="white"
               mb="3"
-              isDisabled={isLoading}
+              isLoading={isLoading}
               _hover={{ bg: 'brand.700' }}
             >
-              {isLoading ? <Spinner /> : 'Entrar'}
+              Entrar
             </Button>
           </Flex>
         </form>
