@@ -26,7 +26,11 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
   useEffect(() => {
     const userPayloadJson = localStorage.getItem('user');
-    if (userPayloadJson) setUser(JSON.parse(userPayloadJson));
+    if (userPayloadJson) {
+      const userPayload = JSON.parse(userPayloadJson);
+      setUser(userPayload);
+      axios.defaults.headers.common.Authorization = `Bearer ${userPayload.token}`;
+    }
   }, []);
 
   const logInUser = (userPayload: User) => {
