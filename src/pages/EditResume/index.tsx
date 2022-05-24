@@ -6,6 +6,7 @@ import { useAuth } from '../../hooks/useAuth';
 
 import { Header } from '../../components/Header';
 import { PersonalInformationSection } from './PersonalInformationSection';
+import { ProfileSection } from './ProfileSection';
 
 export function EditResume() {
   const { user, logOutUser } = useAuth();
@@ -18,6 +19,7 @@ export function EditResume() {
 
       <Accordion allowMultiple>
         <PersonalInformationSection />
+        <ProfileSection />
       </Accordion>
 
       <Text>

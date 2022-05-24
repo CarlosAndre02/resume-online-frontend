@@ -117,9 +117,6 @@ export function PersonalInformationSection() {
     const linkedinLink = event.currentTarget.linkedin_link.value.trim();
     const githubLink = event.currentTarget.github_link.value.trim();
 
-    // eslint-disable-next-line
-    console.log('handleSubmit');
-
     const { isThereError, ...errorsValidated } = validateForm({
       name,
       position,
@@ -148,7 +145,7 @@ export function PersonalInformationSection() {
         github_link: githubLink || null,
       });
 
-      setFieldValues(response.data);
+      setFieldValues(response.data.description);
       toast({
         title: 'Informações salvas.',
         status: 'success',
