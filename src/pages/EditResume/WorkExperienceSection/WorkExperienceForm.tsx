@@ -73,7 +73,7 @@ export function WorkExperienceForm(
       isThereError = true;
     }
 
-    if (fields.description.length < 3) {
+    if (fields.description && fields.description.length < 3) {
       fieldErrors.descriptionError = 'Descrição precisa ter pelo menos 3 caracteres';
       isThereError = true;
     }
