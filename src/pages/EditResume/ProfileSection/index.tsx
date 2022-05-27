@@ -6,8 +6,8 @@ import {
 } from '@chakra-ui/react';
 import { Minus, Plus } from 'phosphor-react';
 import { FormEvent, useEffect, useState } from 'react';
-import { useAuth } from '../../hooks/useAuth';
-import axios from '../../services/axios';
+import { useAuth } from '../../../hooks/useAuth';
+import axios from '../../../services/axios';
 
 type OnSubmitEvent = FormEvent<HTMLFormElement> & {
   currentTarget: {

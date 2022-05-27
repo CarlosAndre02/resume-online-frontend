@@ -5,9 +5,9 @@ import {
 import { Minus, Plus } from 'phosphor-react';
 import { FormEvent, useEffect, useState } from 'react';
 import validator from 'validator';
-import { useAuth } from '../../hooks/useAuth';
-import axios from '../../services/axios';
-import { PhotoUpload } from '../../components/PhotoUpload';
+import { useAuth } from '../../../hooks/useAuth';
+import axios from '../../../services/axios';
+import { PhotoUploadField } from './PhotoUploadField';
 
 type OnSubmitEvent = FormEvent<HTMLFormElement> & {
   currentTarget: {
@@ -207,7 +207,7 @@ export function PersonalInformationSection() {
           </h3>
           <AccordionPanel p={7} bg="white" border="2px" borderTop={0} borderColor="black">
             <form onSubmit={handleSubmit}>
-              <PhotoUpload />
+              <PhotoUploadField />
               <FormControl isInvalid={!!errors.nameError} isRequired>
                 <FormLabel htmlFor="name">Nome completo</FormLabel>
                 <Input

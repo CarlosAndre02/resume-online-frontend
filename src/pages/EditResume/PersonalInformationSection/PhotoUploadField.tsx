@@ -4,8 +4,8 @@ import {
 import { Camera } from 'phosphor-react';
 import { useEffect, useState } from 'react';
 import Dropzone from 'react-dropzone';
-import { useAuth } from '../../hooks/useAuth';
-import axios from '../../services/axios';
+import { useAuth } from '../../../hooks/useAuth';
+import axios from '../../../services/axios';
 
 type Photo = {
   id: number
@@ -13,7 +13,7 @@ type Photo = {
   url: string
 }
 
-export function PhotoUpload() {
+export function PhotoUploadField() {
   const [photo, setPhoto] = useState<Photo | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth();
