@@ -9,13 +9,14 @@ import { PersonalInformationSection } from './PersonalInformationSection';
 import { ProfileSection } from './ProfileSection';
 import { WorkExperienceSection } from './WorkExperienceSection';
 import { EducationSection } from './EducationSection';
+import { SkillSection } from './SkillSection';
 
 export function EditResume() {
   const { user, logOutUser } = useAuth();
   const navigate = useNavigate();
 
   return (
-    <Container maxW="870px">
+    <Container maxW="870px" pb="8">
       <Header />
       <Heading as="h2" my={8}>Meu Currículo</Heading>
 
@@ -24,30 +25,8 @@ export function EditResume() {
         <ProfileSection />
         <WorkExperienceSection />
         <EducationSection />
+        <SkillSection />
       </Accordion>
-
-      <Text>
-        token
-        {' '}
-        {user?.token}
-      </Text>
-      <Text>
-        id
-        {' '}
-        {user?.id}
-      </Text>
-      <Text>
-        username
-        {' '}
-        {user?.username}
-      </Text>
-      <Button onClick={() => {
-        logOutUser();
-        navigate('/');
-      }}
-      >
-        Deslogar
-      </Button>
     </Container>
   );
 }

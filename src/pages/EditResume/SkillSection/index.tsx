@@ -1,26 +1,22 @@
 import {
-  AccordionButton, AccordionItem, AccordionPanel, Box, Button, useToast, Text, Center,
+  AccordionButton, AccordionItem, AccordionPanel, Box, Button, Text, Center, UnorderedList,
 } from '@chakra-ui/react';
 import { Minus, Plus } from 'phosphor-react';
-import { FormEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth } from '../../../hooks/useAuth';
 import axios from '../../../services/axios';
 
-import { WorkExperienceItem } from './WorkExperienceItem';
-import { WorkExperienceForm } from './WorkExperienceForm';
+import { SkillItem } from './SkillItem';
+import { SkillForm } from './SkillForm';
 
-export type WorkExperience = {
+export type Skill = {
   id?: number
-  position: string
-  company: string
-  start_date: string
-  end_date: string
-  description: string
+  skill: string
 }
 
-export function WorkExperienceSection() {
-  const [workExperience, setWorkExperience] = useState<WorkExperience[] | null>(null);
-  const [formData, setFormData] = useState({} as WorkExperience);
+export function SkillSection() {
+  const [skills, setSkills] = useState<Skill[] | null>(null);
+  const [formData, setFormData] = useState({} as Skill);
   const [isEditing, setIsEditing] = useState(false);
   const [isCreatingNew, setIsCreatingNew] = useState(false);
   const { user } = useAuth();
@@ -28,10 +24,10 @@ export function WorkExperienceSection() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`/resumes/${user?.username}/experiences`);
-        setWorkExperience(response.data);
+        const response = await axios.get(`/resumes/${user?.username}/skills`);
+        setSkills(response.data);
       } catch (e) {
-        setWorkExperience(null);
+        setSkills(null);
       }
     };
     fetchData();
@@ -50,7 +46,7 @@ export function WorkExperienceSection() {
               _focus={{ borderColor: 'black' }}
             >
               <Box flex="1" textAlign="left" fontSize="xl">
-                Experiência de trabalho
+                Habilidades
               </Box>
               {isExpanded ? (
                 <Minus size={24} color="#030303" weight="bold" />
@@ -61,53 +57,55 @@ export function WorkExperienceSection() {
           </h3>
           <AccordionPanel p={7} bg="white" border="2px" borderTop={0} borderColor="black">
             { (isEditing || isCreatingNew) ? (
-              <WorkExperienceForm
-                workExperienceData={formData}
+              <SkillForm
+                skillData={formData}
                 onReturnFromForm={() => {
                   setIsEditing(false);
                   setIsCreatingNew(false);
                 }}
-                onDeleting={(deletedExperience: WorkExperience) => {
-                  const newState = workExperience?.filter(
-                    (oldExperience) => (oldExperience.id !== deletedExperience.id),
+                onDeletingFromList={(deletedSkill: Skill) => {
+                  const newState = skills?.filter(
+                    (oldSkill) => (oldSkill.id !== deletedSkill.id),
                   );
 
                   if (newState) {
-                    setWorkExperience(newState);
+                    setSkills(newState);
                   }
                 }}
                 isNewForm={isCreatingNew}
-                UpdateWorkExperienceList={(newExperience: WorkExperience) => {
-                  const newState = workExperience?.map((oldExperience) => {
-                    if (newExperience.id === oldExperience.id) {
-                      return newExperience;
+                UpdateSkillList={(newSkill: Skill) => {
+                  const newState = skills?.map((oldSkill) => {
+                    if (newSkill.id === oldSkill.id) {
+                      return newSkill;
                     }
-                    return oldExperience;
+                    return oldSkill;
                   });
 
                   if (newState) {
-                    setWorkExperience(newState);
+                    setSkills(newState);
                   }
                 }}
-                AddNewExperience={(newExperience: WorkExperience) => {
-                  setWorkExperience((oldValues) => ([
+                AddNewSkill={(newSkill: Skill) => {
+                  setSkills((oldValues) => ([
                     ...(oldValues || []),
-                    newExperience,
+                    newSkill,
                   ]));
                 }}
               />
             ) : (
               <>
-                {workExperience?.map((experience) => (
-                  <WorkExperienceItem
-                    workExperienceData={experience}
-                    onSelectingElement={() => {
-                      setIsEditing(true);
-                      setIsCreatingNew(false);
-                    }}
-                    setFormDataValues={(data: WorkExperience) => setFormData(data)}
-                  />
-                ))}
+                <UnorderedList>
+                  {skills?.map((skillElement) => (
+                    <SkillItem
+                      skillData={skillElement}
+                      onSelectingElement={() => {
+                        setIsEditing(true);
+                        setIsCreatingNew(false);
+                      }}
+                      setFormDataValues={(data: Skill) => setFormData(data)}
+                    />
+                  ))}
+                </UnorderedList>
                 <Center>
                   <Button
                     bg="white"
