@@ -8,6 +8,7 @@ import { Header } from '../../components/Header';
 import { PersonalInformationSection } from './PersonalInformationSection';
 import { ProfileSection } from './ProfileSection';
 import { WorkExperienceSection } from './WorkExperienceSection';
+import { EducationSection } from './EducationSection';
 
 export function EditResume() {
   const { user, logOutUser } = useAuth();
@@ -22,6 +23,7 @@ export function EditResume() {
         <PersonalInformationSection />
         <ProfileSection />
         <WorkExperienceSection />
+        <EducationSection />
       </Accordion>
 
       <Text>
