@@ -1,5 +1,5 @@
 import {
-  Accordion, Button, Container, Heading, Text,
+  Accordion, Button, Container, Flex, Heading,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
@@ -12,13 +12,25 @@ import { EducationSection } from './EducationSection';
 import { SkillSection } from './SkillSection';
 
 export function EditResume() {
-  const { user, logOutUser } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   return (
     <Container maxW="870px" pb="8">
       <Header />
-      <Heading as="h2" my={8}>Meu Currículo</Heading>
+
+      <Flex align="center" justify="space-between" my={8}>
+        <Heading as="h2">Meu Currículo</Heading>
+        <Button
+          size="md"
+          bg="brand.500"
+          color="white"
+          _hover={{ bg: 'brand.700' }}
+          onClick={() => navigate(`/${user?.username}`)}
+        >
+          Visualizar currículo
+        </Button>
+      </Flex>
 
       <Accordion allowMultiple>
         <PersonalInformationSection />
