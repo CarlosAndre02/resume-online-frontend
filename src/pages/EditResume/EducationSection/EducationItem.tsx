@@ -19,7 +19,6 @@ export function EducationItem(
 
   return (
     <Box
-      key={educationData.id}
       mb="6"
       onClick={() => {
         onSelectingElement();

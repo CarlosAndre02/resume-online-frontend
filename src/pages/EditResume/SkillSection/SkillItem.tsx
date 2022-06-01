@@ -16,7 +16,6 @@ export function SkillItem(
   return (
     <ListItem>
       <Box
-        key={skillData.id}
         mb="6"
         onClick={() => {
           onSelectingElement();

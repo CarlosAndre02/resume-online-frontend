@@ -100,6 +100,7 @@ export function EducationSection() {
               <>
                 {education?.map((educationElement) => (
                   <EducationItem
+                    key={educationElement.id}
                     educationData={educationElement}
                     onSelectingElement={() => {
                       setIsEditing(true);

@@ -19,7 +19,6 @@ export function WorkExperienceItem(
 
   return (
     <Box
-      key={workExperienceData.id}
       mb="6"
       onClick={() => {
         onSelectingElement();

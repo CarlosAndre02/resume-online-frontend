@@ -97,6 +97,7 @@ export function SkillSection() {
                 <UnorderedList>
                   {skills?.map((skillElement) => (
                     <SkillItem
+                      key={skillElement.id}
                       skillData={skillElement}
                       onSelectingElement={() => {
                         setIsEditing(true);

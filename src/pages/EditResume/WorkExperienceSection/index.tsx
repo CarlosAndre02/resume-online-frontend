@@ -100,6 +100,7 @@ export function WorkExperienceSection() {
               <>
                 {workExperience?.map((experience) => (
                   <WorkExperienceItem
+                    key={experience.id}
                     workExperienceData={experience}
                     onSelectingElement={() => {
                       setIsEditing(true);
