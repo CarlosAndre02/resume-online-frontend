@@ -13,7 +13,11 @@ type Photo = {
   url: string
 }
 
-export function PhotoUploadField() {
+type PhotoUploadFieldProps = {
+  profileId: number
+}
+
+export function PhotoUploadField({ profileId }: PhotoUploadFieldProps) {
   const [photo, setPhoto] = useState<Photo | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth();
@@ -25,7 +29,7 @@ export function PhotoUploadField() {
         const response = await axios.get(`/resumes/${user?.username}/profiles`);
         setPhoto(response.data.Photo);
       } catch (e) {
-        console.log(e);/* eslint-disable-line */
+        setPhoto(null);
       }
     };
     fetchData();
@@ -34,7 +38,7 @@ export function PhotoUploadField() {
   const onUpload = async (file: any[]) => {
     const data = new FormData();
     data.append('file', file[0]);
-    data.append('profile_id', '26');
+    data.append('profile_id', profileId.toString());
 
     try {
       setIsLoading(true);

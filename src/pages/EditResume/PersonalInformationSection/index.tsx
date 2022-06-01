@@ -23,6 +23,7 @@ type OnSubmitEvent = FormEvent<HTMLFormElement> & {
 };
 
 type FormFields = {
+  id: number
   name: string
   position: string
   phone_number: string
@@ -118,6 +119,7 @@ export function PersonalInformationSection() {
     const githubLink = event.currentTarget.github_link.value.trim();
 
     const { isThereError, ...errorsValidated } = validateForm({
+      id: fieldValues.id,
       name,
       position,
       address,
@@ -145,7 +147,7 @@ export function PersonalInformationSection() {
         github_link: githubLink || null,
       });
 
-      setFieldValues(response.data.description);
+      setFieldValues(response.data);
       toast({
         title: 'Informações salvas.',
         status: 'success',
@@ -170,6 +172,7 @@ export function PersonalInformationSection() {
         setFieldValues(response.data);
       } catch (e) {
         setFieldValues({
+          id: 0,
           name: '',
           position: '',
           phone_number: '',
@@ -207,7 +210,7 @@ export function PersonalInformationSection() {
           </h3>
           <AccordionPanel p={7} bg="white" border="2px" borderTop={0} borderColor="black">
             <form onSubmit={handleSubmit}>
-              <PhotoUploadField />
+              <PhotoUploadField profileId={fieldValues.id} />
               <FormControl isInvalid={!!errors.nameError} isRequired>
                 <FormLabel htmlFor="name">Nome completo</FormLabel>
                 <Input
