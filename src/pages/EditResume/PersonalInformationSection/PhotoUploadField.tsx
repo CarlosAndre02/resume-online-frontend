@@ -4,70 +4,45 @@ import {
 import { Camera } from 'phosphor-react';
 import { useEffect, useState } from 'react';
 import Dropzone from 'react-dropzone';
-import { useAuth } from '../../../hooks/useAuth';
-import axios from '../../../services/axios';
 
-type Photo = {
-  id: number
-  originalname: string
-  url: string
-}
+import { Photo } from '.';
 
 type PhotoUploadFieldProps = {
-  profileId: number
+  photoUploaded: Photo | null
+  setPhotoField: (photoFieldValue: FormData) => void
+  updatePhotoAction: (action: string) => void
 }
 
-export function PhotoUploadField({ profileId }: PhotoUploadFieldProps) {
+export function PhotoUploadField(
+  { photoUploaded, setPhotoField, updatePhotoAction }: PhotoUploadFieldProps,
+) {
   const [photo, setPhoto] = useState<Photo | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const { user } = useAuth();
-  const toast = useToast();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`/resumes/${user?.username}/profiles`);
-        setPhoto(response.data.Photo);
-      } catch (e) {
-        setPhoto(null);
-      }
-    };
-    fetchData();
-  }, []);
+  useEffect(() => setPhoto(photoUploaded), [photoUploaded]);
 
   const onUpload = async (file: any[]) => {
+    setIsLoading(true);
+
     const data = new FormData();
     data.append('file', file[0]);
-    data.append('profile_id', profileId.toString());
 
-    try {
-      setIsLoading(true);
-      const response = await axios.post('/upload', data);
-      setPhoto(response.data);
-    } catch (e) {
-      toast({
-        title: 'Ocorreu um erro. Tente novamente.',
-        status: 'error',
-        duration: 4000,
-        isClosable: true,
-      });
-    }
+    setPhotoField(data);
+    updatePhotoAction('upload');
+    setPhoto({
+      originalname: file[0].name,
+      url: URL.createObjectURL(file[0]),
+    });
+
     setIsLoading(false);
   };
 
   const onDelete = async () => {
-    try {
-      setIsLoading(true);
-      await axios.delete(`/upload/${photo?.id}`);
-      setPhoto(null);
-    } catch (e) {
-      toast({
-        title: 'Ocorreu um erro. Tente novamente.',
-        status: 'error',
-        duration: 4000,
-        isClosable: true,
-      });
-    }
+    setIsLoading(true);
+
+    updatePhotoAction('delete');
+    setPhoto(null);
+
     setIsLoading(false);
   };
 

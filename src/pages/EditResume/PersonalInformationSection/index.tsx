@@ -34,6 +34,14 @@ type FormFields = {
   github_link: string
 }
 
+export type Photo = {
+  id?: number
+  originalname: string
+  url: string
+}
+
+type PhotoField = FormData
+
 export function PersonalInformationSection() {
   const [fieldValues, setFieldValues] = useState({} as FormFields);
   const [errors, setErrors] = useState({
@@ -46,6 +54,9 @@ export function PersonalInformationSection() {
     linkedin_link_error: '',
     github_link_error: '',
   });
+  const [photo, setPhoto] = useState<Photo | null>(null);
+  const [photoField, setPhotoField] = useState<PhotoField | null>(null);
+  const [photoAction, setPhotoAction] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth();
   const toast = useToast();
@@ -136,7 +147,7 @@ export function PersonalInformationSection() {
     try {
       setIsLoading(true);
 
-      const response = await axios.put(`/resumes/${user?.username}/profiles`, {
+      const profileResponse = await axios.put(`/resumes/${user?.username}/profiles`, {
         name,
         position,
         phone_number: phoneNumber,
@@ -146,8 +157,23 @@ export function PersonalInformationSection() {
         linkedin_link: linkedinLink || null,
         github_link: githubLink || null,
       });
+      setFieldValues(profileResponse.data);
 
-      setFieldValues(response.data);
+      if (photoAction === 'upload') {
+        if (photo) await axios.delete(`/upload/${photo?.id}`);
+
+        photoField?.append('profile_id', profileResponse.data.id);
+        const PhotoResponse = await axios.post('/upload', photoField);
+        setPhoto(PhotoResponse.data);
+      }
+
+      if (photo && photoAction === 'delete') {
+        await axios.delete(`/upload/${photo.id}`);
+        setPhoto(null);
+      }
+
+      setPhotoAction(null);
+
       toast({
         title: 'Informações salvas.',
         status: 'success',
@@ -170,6 +196,7 @@ export function PersonalInformationSection() {
       try {
         const response = await axios.get(`/resumes/${user?.username}/profiles`);
         setFieldValues(response.data);
+        setPhoto(response.data.Photo);
       } catch (e) {
         setFieldValues({
           id: 0,
@@ -210,7 +237,12 @@ export function PersonalInformationSection() {
           </h3>
           <AccordionPanel p={7} bg="white" border="2px" borderTop={0} borderColor="black">
             <form onSubmit={handleSubmit}>
-              <PhotoUploadField profileId={fieldValues.id} />
+              <PhotoUploadField
+                photoUploaded={photo}
+                setPhotoField={(photoFieldValue: FormData) => setPhotoField(photoFieldValue)}
+                updatePhotoAction={(action: string) => setPhotoAction(action)}
+              />
+
               <FormControl isInvalid={!!errors.nameError} isRequired>
                 <FormLabel htmlFor="name">Nome completo</FormLabel>
                 <Input
