@@ -19,7 +19,7 @@ A API usada nesse projeto pode ser encontrada [aqui](https://github.com/CarlosAn
 
 1. Configure as variáveis de ambiente. Crie uma cópia do arquivo `.env.local.example` chamada `.env.local`.
 
-2. Instale todos os pacotes do projeto
+2. Instale todos os pacotes do projeto.
 ```bash
 npm install
 ```
